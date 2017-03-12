@@ -1,6 +1,6 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
-using System.Reflection;
 
 namespace FunctionalTestServer.Application.Data
 {
@@ -8,12 +8,17 @@ namespace FunctionalTestServer.Application.Data
     {
         protected static SqlConnection GetConnection()
         {
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)?.Replace(@"file:\", string.Empty);
+            //var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)?.Replace(@"file:\", string.Empty);
 
-            var mdfFile = Path.Combine(path, "Data", "FunctionalTestServer.mdf");
+            //var mdfFile = Path.Combine(path, "Data", "FunctionalTestServer.mdf");
 
-            var connection =
-                new SqlConnection($@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={mdfFile};Integrated Security=True");
+            //var connection =
+            //    new SqlConnection($@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={mdfFile};Integrated Security=True");
+
+            var connectionString = ConfigurationManager.ConnectionStrings["ftnba"];
+
+            var connection = 
+                new SqlConnection(connectionString.ConnectionString);
 
             return connection;
         }
